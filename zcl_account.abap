@@ -7,11 +7,14 @@ CLASS zcl_account DEFINITION
     INTERFACES if_oo_adt_classrun.
 
     METHODS constructor
-      IMPORTING iv_owner TYPE string.
+      IMPORTING iv_owner TYPE string OPTIONAL.
     METHODS deposit
+      IMPORTING iv_amount TYPE i.
+    METHODS withdraw
       IMPORTING iv_amount TYPE i.
     METHODS get_balance
       RETURNING VALUE(rv_balance) TYPE i.
+
 
   PRIVATE SECTION.
     DATA mv_owner   TYPE string.
@@ -27,6 +30,13 @@ CLASS zcl_account IMPLEMENTATION.
     mv_balance += iv_amount.
   ENDMETHOD.
 
+  METHOD withdraw.
+    IF iv_amount <= mv_balance.
+      mv_balance -= iv_amount.
+    ENDIF.
+  ENDMETHOD.
+
+
   METHOD get_balance.
     rv_balance = mv_balance.
   ENDMETHOD.
@@ -34,7 +44,8 @@ CLASS zcl_account IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
     DATA(lo_account) = NEW zcl_account( `Nikoleta` ).
     lo_account->deposit( 100 ).
-    lo_account->deposit( 50 ).
+    lo_account->withdraw( 30 ).
+    lo_account->withdraw( 200 ).
     out->write( lo_account->get_balance( ) ).
   ENDMETHOD.
 ENDCLASS.
