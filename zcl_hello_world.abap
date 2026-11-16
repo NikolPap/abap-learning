@@ -8,31 +8,20 @@ CLASS zcl_hello_world DEFINITION
 ENDCLASS.
 
 CLASS zcl_hello_world IMPLEMENTATION.
- METHOD if_oo_adt_classrun~main.
-  " Δήλωση μεταβλητών
-  DATA lv_name   TYPE string VALUE `Nikoleta`.
-  DATA lv_age    TYPE i      VALUE 30.
-  DATA lv_price  TYPE p LENGTH 8 DECIMALS 2 VALUE '19.99'.
-
-  out->write( |Hallo { lv_name }, Alter: { lv_age }| ).
+METHOD if_oo_adt_classrun~main.
+  DATA lv_sum   TYPE i      VALUE 0.
 
   " Loop
-  DO 3 TIMES.
-    out->write( |Durchlauf { sy-index }| ).
+  DO 10 TIMES.
+   lv_sum = lv_sum + sy-index.
   ENDDO.
+  out->write( lv_sum ).
 
   " If / Else
-  IF lv_age >= 18.
-    out->write( 'Erwachsen' ).
+  IF lv_sum MOD 2 = 0.
+    out->write( 'gerade' ).
   ELSE.
-    out->write( 'Minderjährig' ).
+    out->write( 'ungerade' ).
   ENDIF.
-
-  " Inline-Deklaration und Tabelle (ABAP-Version von List<String>)
-  DATA(lt_names) = VALUE string_table( ( `Anna` ) ( `Ben` ) ( `Clara` ) ).
-
-  LOOP AT lt_names INTO DATA(lv_n).
-    out->write( lv_n ).
-  ENDLOOP.
 ENDMETHOD.
 ENDCLASS.
