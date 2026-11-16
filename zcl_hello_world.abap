@@ -12,10 +12,11 @@ METHOD if_oo_adt_classrun~main.
   DATA lv_sum   TYPE i      VALUE 0.
 
   " Loop
-  DO 10 TIMES.
-   lv_sum = lv_sum + sy-index.
-  ENDDO.
-  out->write( lv_sum ).
+DATA(lv_i) = 1.
+WHILE lv_i <= 10.
+  lv_sum += lv_i.
+  lv_i += 1.
+ENDWHILE.
 
   " If / Else
   IF lv_sum MOD 2 = 0.
