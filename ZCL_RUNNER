@@ -8,18 +8,17 @@ CLASS zcl_runner DEFINITION
 ENDCLASS.
 
 CLASS zcl_runner IMPLEMENTATION.
-  METHOD if_oo_adt_classrun~main.
-    DATA(lo_savings) = NEW zcl_savings_account( iv_owner = `Nikoleta`
-                                                iv_rate  = 5 ).
-    TRY.
-        lo_savings->deposit( 200 ).
-        lo_savings->withdraw( 100 ).
-      CATCH zcx_invalid_amount zcx_insufficient_funds.
-        out->write( 'Fehler' ).
-    ENDTRY.
+ METHOD if_oo_adt_classrun~main.
+  DATA lo_item TYPE REF TO zif_describable.
 
-    lo_savings->add_interest( ).
-    out->write( lo_savings->get_balance( ) ).
+  lo_item = NEW zcl_account( `Anna` ).
+  out->write( lo_item->get_description( ) ).
 
-  ENDMETHOD.
+  lo_item = NEW zcl_savings_account( iv_owner = `Ben`
+                                     iv_rate  = 3 ).
+  out->write( lo_item->get_description( ) ).
+
+  lo_item = NEW zcl_customer( `Clara` ).
+  out->write( lo_item->get_description( ) ).
+ENDMETHOD.
 ENDCLASS.
