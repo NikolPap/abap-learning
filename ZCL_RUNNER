@@ -1,0 +1,25 @@
+CLASS zcl_runner DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC.
+
+  PUBLIC SECTION.
+    INTERFACES if_oo_adt_classrun.
+ENDCLASS.
+
+CLASS zcl_runner IMPLEMENTATION.
+  METHOD if_oo_adt_classrun~main.
+    DATA(lo_savings) = NEW zcl_savings_account( iv_owner = `Nikoleta`
+                                                iv_rate  = 5 ).
+    TRY.
+        lo_savings->deposit( 200 ).
+        lo_savings->withdraw( 100 ).
+      CATCH zcx_invalid_amount zcx_insufficient_funds.
+        out->write( 'Fehler' ).
+    ENDTRY.
+
+    lo_savings->add_interest( ).
+    out->write( lo_savings->get_balance( ) ).
+
+  ENDMETHOD.
+ENDCLASS.
