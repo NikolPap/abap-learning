@@ -1,0 +1,65 @@
+*"* use this source file for your ABAP unit test classes
+CLASS ltc_account DEFINITION FINAL FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+
+  PRIVATE SECTION.
+    DATA mo_cut TYPE REF TO zcl_account.
+
+    METHODS setup.
+    METHODS deposit_increases_balance FOR TESTING RAISING cx_static_check.
+    METHODS withdraw_decreases_balance FOR TESTING RAISING  cx_static_check.
+    METHODS withdraw_too_much_raises_error FOR TESTING RAISING cx_static_check.
+    METHODS deposit_zero_raises_error FOR TESTING RAISING cx_static_check.
+
+ENDCLASS.
+
+CLASS ltc_account IMPLEMENTATION.
+  METHOD setup.
+    mo_cut = NEW zcl_account( `Test` ).
+  ENDMETHOD.
+
+  METHOD deposit_increases_balance.
+    mo_cut->deposit( 100 ).
+
+    cl_abap_unit_assert=>assert_equals(
+      act = mo_cut->get_balance( )
+      exp = 100 ).
+  ENDMETHOD.
+
+  METHOD withdraw_decreases_balance.
+    mo_cut->deposit( 100 ).
+    mo_cut->withdraw( 30 ).
+
+    cl_abap_unit_assert=>assert_equals(
+    act = mo_cut->get_balance(  )
+    exp = 70 ).
+  ENDMETHOD.
+
+  METHOD withdraw_too_much_raises_error.
+    mo_cut->deposit( 100 ).
+
+    TRY.
+        mo_cut->withdraw( 200 ).
+        cl_abap_unit_assert=>fail( msg = 'Exception erwartet' ).
+      CATCH zcx_insufficient_funds.
+    ENDTRY.
+
+    cl_abap_unit_assert=>assert_equals(
+      act = mo_cut->get_balance( )
+      exp = 100 ).
+  ENDMETHOD.
+
+  METHOD deposit_zero_raises_error.
+  TRY.
+      mo_cut->deposit( 0 )."
+      cl_abap_unit_assert=>fail( msg = 'Exception erwartet' ).
+    CATCH zcx_invalid_amount.
+  ENDTRY.
+
+  cl_abap_unit_assert=>assert_equals(
+    act = mo_cut->get_balance( )
+    exp = 0 ).
+ENDMETHOD.
+
+ENDCLASS.
