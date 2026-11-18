@@ -1,0 +1,27 @@
+*"* use this source file for your ABAP unit test classes
+CLASS ltc_savings_account DEFINITION FINAL FOR TESTING
+  DURATION SHORT
+  RISK LEVEL HARMLESS.
+
+  PRIVATE SECTION.
+   DATA mo_cut TYPE REF TO zcl_savings_account.
+
+    METHODS setup.
+    METHODS add_interest_increases_balance FOR TESTING RAISING cx_static_check.
+ENDCLASS.
+
+CLASS ltc_savings_account IMPLEMENTATION.
+   METHOD setup.
+    mo_cut = NEW zcl_savings_account( iv_owner = `Test`
+                                      iv_rate  = 5 ).
+  ENDMETHOD.
+
+    METHOD add_interest_increases_balance.
+      mo_cut->deposit( 100 ).
+       mo_cut->add_interest( ).
+
+      cl_abap_unit_assert=>assert_equals(
+        act = mo_cut->get_balance( )
+        exp = 105 ).
+    ENDMETHOD.
+ENDCLASS.
