@@ -33,6 +33,4 @@ Reihenfolge der Aktivierung: Datenbanktabelle, Ausnahmeklassen, Interface,
 ## Ausführen
 - Anwendung: Runner-Klasse markieren und **F9**.
 - Tests: Klasse markieren und **Strg + Umschalt + F10**.
-## Nächste Schritte
-- Tests für das Repository
-- Weitere Beispiele mit Datenbankzugriff
+- `ltc_repo` (für `ZCL_ACCOUNT_REPOSITORY`): Tests mit Testdoubles (`cl_osql_test_environment`) für Lesezugriffe, Summe und Fehlerfälle.
