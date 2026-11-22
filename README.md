@@ -69,8 +69,3 @@ danach die Runner, zuletzt CDS View, Service Definition und Service Binding.
 - Anwendung: Runner-Klasse markieren und **F9**.
 - Tests: Klasse markieren und **Strg + Umschalt + F10**.
 - Fiori-Vorschau: Service Binding öffnen, Entität `Account` wählen und **Preview** klicken.
-
-## Nächste Schritte
-
-- Weitere Beispiele mit Datenbankzugriff (`UPDATE`, `DELETE`)
-- Schreibender Zugriff über ein RAP-Business-Object
